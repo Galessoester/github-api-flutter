@@ -3,20 +3,20 @@ import 'package:github_api_demo/api/github_api.dart';
 import 'package:github_api_demo/models/user.dart';
 import 'package:github_api_demo/pages/base_page.dart';
 
-class FollowingPage extends StatefulWidget {
+class RepositoryPage extends StatefulWidget {
   final User user;
-  const FollowingPage(this.user);
+  const RepositoryPage(this.user);
 
   @override
-  State<FollowingPage> createState() => _FollowingPageState();
+  State<RepositoryPage> createState() => _RepositoryPageState();
 }
 
-class _FollowingPageState extends State<FollowingPage> {
-  late Future<List<User>> _futureFollowing;
+class _RepositoryPageState extends State<RepositoryPage> {
+  late Future<List<User>> _futureRepositories;
 
   @override
   void initState() {
-    _futureFollowing = GithubApi().listFollowing(widget.user.login);
+    _futureRepositories = GithubApi().listRepositories(widget.user.login);
     super.initState();
   }
 
@@ -29,7 +29,7 @@ class _FollowingPageState extends State<FollowingPage> {
           Expanded(
               // Lista de usuários seguindo
               child: FutureBuilder<List<User>>(
-            future: _futureFollowing,
+            future: _futureRepositories,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -42,20 +42,16 @@ class _FollowingPageState extends State<FollowingPage> {
                 );
               }
 
-              var following = snapshot.data ?? [];
+              var repositories = snapshot.data ?? [];
               return ListView.separated(
-                itemCount: following.length,
+                itemCount: repositories.length,
                 itemBuilder: ((context, i) {
-                  var user = following[i];
+                  var user = repositories[i];
                   return ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(user.avatarUrl),
                     ),
                     title: Text(user.login),
-                    trailing: const Text(
-                      'Following',
-                      style: TextStyle(color: Colors.blueAccent),
-                    ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

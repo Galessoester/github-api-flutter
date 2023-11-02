@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:github_api_demo/api/github_api.dart';
-import 'package:github_api_demo/pages/following_page.dart';
+import 'package:github_api_demo/pages/base_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage();
@@ -89,16 +87,18 @@ class _HomePageState extends State<HomePage> {
                         ),
                 ),
                 onPressed: () async {
-                  var userName = _controller.text;
-                  final user = await GithubApi().findUser(userName);
+                  final userName = _controller.text;
+                  final api = GithubApi();
+                  final user = await api.findUser(userName);
                   if (user == null) {
                     setState(() {
+                      //errorMessage é uma variável global, vinculada ao "errorText" do widget TextField
                       errorMessage = "Informe um usuário";
                     });
                   } else {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => FollowingPage(user),
+                        builder: (context) => BasePage(user),
                       ),
                     );
                   }
