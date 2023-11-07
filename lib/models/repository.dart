@@ -1,13 +1,15 @@
 class Repository {
   final String name;
-  final String private;
+  final bool private;
+  final String? language;
 
-  Repository(this.name, this.private);
+  Repository(this.name, this.private, this.language);
 
   factory Repository.fromJson(Map json) {
     return Repository(
-      json['login'],
-      json['avatar_url'],
+      json['name'],
+      json['private'],
+      json['language'],
     );
   }
 }

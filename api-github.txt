@@ -34,6 +34,43 @@
   "user_search_url": "https://api.github.com/search/users?q={query}{&page,per_page,sort,order}"
 }
 
+***** Exemplo de retorno - users *****
+
+{
+  "login": "Galessoester",
+  "id": 86168157,
+  "node_id": "MDQ6VXNlcjg2MTY4MTU3",
+  "avatar_url": "https://avatars.githubusercontent.com/u/86168157?v=4",
+  "gravatar_id": "",
+  "url": "https://api.github.com/users/Galessoester",
+  "html_url": "https://github.com/Galessoester",
+  "followers_url": "https://api.github.com/users/Galessoester/followers",
+  "following_url": "https://api.github.com/users/Galessoester/following{/other_user}",
+  "gists_url": "https://api.github.com/users/Galessoester/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/Galessoester/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/Galessoester/subscriptions",
+  "organizations_url": "https://api.github.com/users/Galessoester/orgs",
+  "repos_url": "https://api.github.com/users/Galessoester/repos",
+  "events_url": "https://api.github.com/users/Galessoester/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/Galessoester/received_events",
+  "type": "User",
+  "site_admin": false,
+  "name": "Ester Galesso",
+  "company": null,
+  "blog": "",
+  "location": null,
+  "email": null,
+  "hireable": true,
+  "bio": "Desenvolvedora front-end.",
+  "twitter_username": null,
+  "public_repos": 33,
+  "public_gists": 0,
+  "followers": 15,
+  "following": 29,
+  "created_at": "2021-06-19T19:30:18Z",
+  "updated_at": "2023-10-25T01:38:31Z"
+}
+
 ***** Exemplo de retorno - repository *****
 
 {

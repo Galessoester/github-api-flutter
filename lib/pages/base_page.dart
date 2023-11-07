@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:github_api_demo/api/github_api.dart';
 import 'package:github_api_demo/models/user.dart';
 import 'package:github_api_demo/pages/followers_page.dart';
 import 'package:github_api_demo/pages/following_page.dart';
+import 'package:github_api_demo/pages/repositories_page.dart';
 
 class BasePage extends StatefulWidget {
   final User user;
@@ -12,8 +14,41 @@ class BasePage extends StatefulWidget {
 }
 
 class _BasePageState extends State<BasePage> {
+  final _api = GithubApi();
+
+  Future<int?> fetchFollowingCount() async {
+    final following = await _api.listFollowing(widget.user.login);
+    return following.length;
+  }
+
+  Future<int?> fetchFollowersCount() async {
+    final followers = await _api.listFollowers(widget.user.login);
+    return followers.length;
+  }
+
+  Future<int?> fetchRepositoriesCount() async {
+    final repositories = await _api.listRepositories(widget.user.login);
+    return repositories.length;
+  }
+
   @override
   void initState() {
+    fetchFollowingCount().then((count) {
+      setState(() {
+        count;
+      });
+    });
+    fetchFollowersCount().then((count) {
+      setState(() {
+        count;
+      });
+    });
+    fetchFollowersCount().then((count) {
+      setState(() {
+        count;
+      });
+    });
+
     super.initState();
   }
 
@@ -56,37 +91,88 @@ class _BasePageState extends State<BasePage> {
             const SizedBox(
               height: 20,
             ),
-            const TabBar(
+            TabBar(
               indicatorColor: Colors.black,
               tabs: [
                 Tab(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.people,
                     color: Colors.black,
                   ),
-                  child: Text(
-                    'Following',
-                    style: TextStyle(color: Colors.black),
+                  child: FutureBuilder<int?>(
+                    future: fetchFollowingCount(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text(
+                          'Following',
+                          style: TextStyle(color: Colors.black),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return Text(
+                          'Following (${snapshot.data})',
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      }
+                      return const Text(
+                        'Following',
+                        style: TextStyle(color: Colors.black),
+                      );
+                    },
                   ),
                 ),
                 Tab(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.people_alt_outlined,
                     color: Colors.black,
                   ),
-                  child: Text(
-                    'Followers',
-                    style: TextStyle(color: Colors.black),
+                  child: FutureBuilder<int?>(
+                    future: fetchFollowersCount(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text(
+                          'Followers',
+                          style: TextStyle(color: Colors.black),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return Text(
+                          'Followers (${snapshot.data})',
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      }
+                      return const Text(
+                        'Followers',
+                        style: TextStyle(color: Colors.black),
+                      );
+                    },
                   ),
                 ),
                 Tab(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.book,
                     color: Colors.black,
                   ),
-                  child: Text(
-                    'Repository',
-                    style: TextStyle(color: Colors.black),
+                  child: FutureBuilder<int?>(
+                    future: fetchRepositoriesCount(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text(
+                          'Repositories',
+                          style: TextStyle(color: Colors.black),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return Text(
+                          'Repositories (${snapshot.data})',
+                          style: const TextStyle(color: Colors.black),
+                        );
+                      }
+                      return const Text(
+                        'Repositories',
+                        style: TextStyle(color: Colors.black),
+                      );
+                    },
                   ),
                 ),
                 Tab(icon: Icon(Icons.directions_bike)),
@@ -97,7 +183,7 @@ class _BasePageState extends State<BasePage> {
                 children: [
                   FollowingPage(widget.user),
                   FollowersPage(widget.user),
-                  FollowersPage(widget.user),
+                  RepositoryPage(widget.user),
                   Icon(Icons.directions_bike),
                 ],
               ),

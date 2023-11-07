@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_api_demo/api/github_api.dart';
+import 'package:github_api_demo/models/repository.dart';
 import 'package:github_api_demo/models/user.dart';
-import 'package:github_api_demo/pages/base_page.dart';
 
 class RepositoryPage extends StatefulWidget {
   final User user;
@@ -12,7 +12,7 @@ class RepositoryPage extends StatefulWidget {
 }
 
 class _RepositoryPageState extends State<RepositoryPage> {
-  late Future<List<User>> _futureRepositories;
+  late Future<List<Repository>> _futureRepositories;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _RepositoryPageState extends State<RepositoryPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Expanded(
               // Lista de usuários seguindo
-              child: FutureBuilder<List<User>>(
+              child: FutureBuilder<List<Repository>>(
             future: _futureRepositories,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,23 +46,18 @@ class _RepositoryPageState extends State<RepositoryPage> {
               return ListView.separated(
                 itemCount: repositories.length,
                 itemBuilder: ((context, i) {
-                  var user = repositories[i];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(user.avatarUrl),
-                    ),
-                    title: Text(user.login),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => BasePage(user),
-                        ),
-                      );
-                    },
-                  );
+                  var repository = repositories[i];
+                  return repository.private == false
+                      ? ListTile(
+                          trailing: repository.language == null
+                              ? const Text('')
+                              : Text(repository.language!),
+                          title: Text(repository.name),
+                        )
+                      : null;
                 }),
                 separatorBuilder: (context, index) {
-                  return Divider();
+                  return const Divider();
                 },
               );
             },

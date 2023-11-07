@@ -13,11 +13,28 @@ class FollowersPage extends StatefulWidget {
 
 class _FollowersPageState extends State<FollowersPage> {
   late Future<List<User>> _futureFollowers;
+  late List<User> _followers = [];
+//   late Future<User?> usuario;
 
   @override
   void initState() {
+//     usuario = GithubApi().findUser(widget.user.login);
     _futureFollowers = GithubApi().listFollowers(widget.user.login);
+    _carregarSeguidores();
     super.initState();
+  }
+
+  Future<void> _carregarSeguidores() async {
+    final followers = await _futureFollowers;
+    setState(() {
+      _followers = followers;
+    });
+  }
+
+  void _ordemAlfabetica() {
+    setState(() {
+      _followers.sort((a, b) => a.login.compareTo(b.login));
+    });
   }
 
   @override
@@ -46,27 +63,38 @@ class _FollowersPageState extends State<FollowersPage> {
               return ListView.separated(
                 itemCount: followers.length,
                 itemBuilder: ((context, i) {
-                  var user = followers[i];
+                  var follower = followers[i];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: NetworkImage(user.avatarUrl),
+                      backgroundImage: NetworkImage(follower.avatarUrl),
                     ),
-                    title: Text(user.login),
+                    title: Text(follower.login),
+                    // trailing: Text(''),
+                    // trailing: user.name == null
+                    //     ? const Text('')
+                    //     : Text(
+                    //         user.name!,
+                    //         style: const TextStyle(color: Colors.black),
+                    //       ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => BasePage(user),
+                          builder: (context) => BasePage(follower),
                         ),
                       );
                     },
                   );
                 }),
                 separatorBuilder: (context, index) {
-                  return Divider();
+                  return const Divider();
                 },
               );
             },
           )),
+          ElevatedButton(
+            onPressed: _ordemAlfabetica,
+            child: const Text('Ordenar por Nome'),
+          ),
         ]),
       ),
     );

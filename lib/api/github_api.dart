@@ -8,12 +8,14 @@
 
 import 'dart:convert';
 
+import 'package:github_api_demo/models/repository.dart';
+
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class GithubApi {
   final String baseUrl = 'https://api.github.com/';
-  final String token = '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';
+  final String token = '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';
 
   Future<User?> findUser(String userName) async {
     final url = '${baseUrl}users/$userName';
@@ -62,15 +64,16 @@ class GithubApi {
     return [];
   }
 
-  Future<List<User>> listRepositories(String userName) async {
+  Future<List<Repository>> listRepositories(String userName) async {
     final url = '${baseUrl}users/$userName/repos';
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       List jsonList = jsonDecode(response.body);
-      var users = jsonList.map((json) => User.fromJson(json)).toList();
+      var repositories =
+          jsonList.map((json) => Repository.fromJson(json)).toList();
 
-      return users;
+      return repositories;
     }
     return [];
   }
