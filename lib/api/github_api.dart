@@ -15,7 +15,7 @@ import 'package:http/http.dart' as http;
 
 class GithubApi {
   final String baseUrl = 'https://api.github.com/';
-  final String token = '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';
+  final String token = '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';
 
   Future<User?> findUser(String userName) async {
     final url = '${baseUrl}users/$userName';
@@ -40,7 +40,14 @@ class GithubApi {
 
   Future<List<User>> listFollowing(String userName) async {
     final url = '${baseUrl}users/$userName/following';
-    var response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
       List jsonList = jsonDecode(response.body);
@@ -51,13 +58,24 @@ class GithubApi {
     return [];
   }
 
-  Future<List<User>> listFollowers(String userName) async {
+  Future<List<User>> listFollowers(String userName, {bool order = false}) async {
     final url = '${baseUrl}users/$userName/followers';
-    var response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
       List jsonList = jsonDecode(response.body);
       var users = jsonList.map((json) => User.fromJson(json)).toList();
+
+      if(order)  {
+        users.sort((a, b) => a.login.compareTo(b.login));
+      }
 
       return users;
     }
@@ -66,7 +84,14 @@ class GithubApi {
 
   Future<List<Repository>> listRepositories(String userName) async {
     final url = '${baseUrl}users/$userName/repos';
-    var response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     if (response.statusCode == 200) {
       List jsonList = jsonDecode(response.body);

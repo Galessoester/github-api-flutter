@@ -55,7 +55,7 @@ class _BasePageState extends State<BasePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Seu perfil'),
@@ -92,6 +92,7 @@ class _BasePageState extends State<BasePage> {
               height: 20,
             ),
             TabBar(
+
               indicatorColor: Colors.black,
               tabs: [
                 Tab(
@@ -175,7 +176,7 @@ class _BasePageState extends State<BasePage> {
                     },
                   ),
                 ),
-                Tab(icon: Icon(Icons.directions_bike)),
+                //Tab(icon: Icon(Icons.directions_bike)),
               ],
             ),
             Expanded(
@@ -184,7 +185,7 @@ class _BasePageState extends State<BasePage> {
                   FollowingPage(widget.user),
                   FollowersPage(widget.user),
                   RepositoryPage(widget.user),
-                  Icon(Icons.directions_bike),
+                  //Icon(Icons.directions_bike),
                 ],
               ),
             ),

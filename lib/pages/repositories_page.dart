@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github_api_demo/api/github_api.dart';
 import 'package:github_api_demo/models/repository.dart';
 import 'package:github_api_demo/models/user.dart';
+import 'package:github_api_demo/pages/repository_detalhe_page.dart';
 
 class RepositoryPage extends StatefulWidget {
   final User user;
@@ -41,7 +42,6 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   child: Text('Erro'),
                 );
               }
-
               var repositories = snapshot.data ?? [];
               return ListView.separated(
                 itemCount: repositories.length,
@@ -51,8 +51,15 @@ class _RepositoryPageState extends State<RepositoryPage> {
                       ? ListTile(
                           trailing: repository.language == null
                               ? const Text('')
-                              : Text(repository.language!),
+                              : Text('Language: ${repository.language!}'),
                           title: Text(repository.name),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => RepositoryDetalhePage(repository: repository),
+                              ),
+                            );
+                          },
                         )
                       : null;
                 }),

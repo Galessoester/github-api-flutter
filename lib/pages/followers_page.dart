@@ -14,11 +14,9 @@ class FollowersPage extends StatefulWidget {
 class _FollowersPageState extends State<FollowersPage> {
   late Future<List<User>> _futureFollowers;
   late List<User> _followers = [];
-//   late Future<User?> usuario;
 
   @override
   void initState() {
-//     usuario = GithubApi().findUser(widget.user.login);
     _futureFollowers = GithubApi().listFollowers(widget.user.login);
     _carregarSeguidores();
     super.initState();
@@ -33,7 +31,7 @@ class _FollowersPageState extends State<FollowersPage> {
 
   void _ordemAlfabetica() {
     setState(() {
-      _followers.sort((a, b) => a.login.compareTo(b.login));
+      _futureFollowers = GithubApi().listFollowers(widget.user.login, order: true);
     });
   }
 
@@ -69,13 +67,6 @@ class _FollowersPageState extends State<FollowersPage> {
                       backgroundImage: NetworkImage(follower.avatarUrl),
                     ),
                     title: Text(follower.login),
-                    // trailing: Text(''),
-                    // trailing: user.name == null
-                    //     ? const Text('')
-                    //     : Text(
-                    //         user.name!,
-                    //         style: const TextStyle(color: Colors.black),
-                    //       ),
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
