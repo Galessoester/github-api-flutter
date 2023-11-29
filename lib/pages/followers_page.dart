@@ -31,7 +31,7 @@ class _FollowersPageState extends State<FollowersPage> {
 
   void _ordemAlfabetica() {
     setState(() {
-      _futureFollowers = GithubApi().listFollowers(widget.user.login, order: true);
+      _futureFollowers = GithubApi().listFollowers(widget.user.login);
     });
   }
 

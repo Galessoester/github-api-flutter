@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                           strokeWidth: 2,
                         )
                       : const Text(
-                          'Get Your Following Now',
+                          'GO',
                           style: TextStyle(color: Colors.white),
                         ),
                 ),

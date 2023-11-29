@@ -15,7 +15,7 @@ import 'package:http/http.dart' as http;
 
 class GithubApi {
   final String baseUrl = 'https://api.github.com/';
-  final String token = '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';
+  final String token = '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';
 
   Future<User?> findUser(String userName) async {
     final url = '${baseUrl}users/$userName';
@@ -58,7 +58,8 @@ class GithubApi {
     return [];
   }
 
-  Future<List<User>> listFollowers(String userName, {bool order = false}) async {
+  Future<List<User>> listFollowers(String userName,
+      {bool order = false}) async {
     final url = '${baseUrl}users/$userName/followers';
     var response = await http.get(
       Uri.parse(url),
@@ -73,7 +74,7 @@ class GithubApi {
       List jsonList = jsonDecode(response.body);
       var users = jsonList.map((json) => User.fromJson(json)).toList();
 
-      if(order)  {
+      if (order) {
         users.sort((a, b) => a.login.compareTo(b.login));
       }
 

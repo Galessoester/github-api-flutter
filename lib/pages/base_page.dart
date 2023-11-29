@@ -58,7 +58,7 @@ class _BasePageState extends State<BasePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Seu perfil'),
+          title: const Text('Informações'),
           backgroundColor: Colors.black,
         ),
         body: Padding(
@@ -92,7 +92,6 @@ class _BasePageState extends State<BasePage> {
               height: 20,
             ),
             TabBar(
-
               indicatorColor: Colors.black,
               tabs: [
                 Tab(

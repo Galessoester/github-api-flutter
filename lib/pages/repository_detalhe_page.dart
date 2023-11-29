@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:github_api_demo/models/repository.dart';
 
 class RepositoryDetalhePage extends StatelessWidget {
-  const RepositoryDetalhePage({Key? key, required this.repository}) : super(key: key);
+  const RepositoryDetalhePage({Key? key, required this.repository})
+      : super(key: key);
   final Repository repository;
   @override
   Widget build(BuildContext context) {
@@ -16,19 +17,19 @@ class RepositoryDetalhePage extends StatelessWidget {
           children: [
             ListTile(
               title: const Text('Descrição: '),
-              subtitle: repository.description == null 
-              ? const Text('Sem descrição.')
-              : Text(repository.description!),
+              subtitle: Text(repository.description),
             ),
             ListTile(
               title: const Text('Linguagem utilizada: '),
-              subtitle: repository.language == null 
-              ? const Text('Sem linguagem.')
-              : Text(repository.language!),
+              subtitle: Text(repository.language),
             ),
-          ]
-        )
-      )
+            ListTile(
+              title: const Text('Link: '),
+              subtitle: Text(repository.htmlUrl),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

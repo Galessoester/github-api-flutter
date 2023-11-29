@@ -49,14 +49,13 @@ class _RepositoryPageState extends State<RepositoryPage> {
                   var repository = repositories[i];
                   return repository.private == false
                       ? ListTile(
-                          trailing: repository.language == null
-                              ? const Text('')
-                              : Text('Language: ${repository.language!}'),
+                          trailing: Text('Language: ${repository.language}'),
                           title: Text(repository.name),
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => RepositoryDetalhePage(repository: repository),
+                                builder: (context) => RepositoryDetalhePage(
+                                    repository: repository),
                               ),
                             );
                           },
